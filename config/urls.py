@@ -20,6 +20,10 @@ urlpatterns = [
         include("instagramclone.users.urls", namespace="users"),
     ),
     path("accounts/", include("allauth.urls")),
+    path(
+        "images/",
+        include("instagramclone.images.urls", namespace="images"),
+    ),
     # Your stuff: custom urls includes go here
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
