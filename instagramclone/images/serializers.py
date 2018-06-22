@@ -14,8 +14,9 @@ class FeedUserSerializer(serializers.ModelSerializer):
             'username',
             'profile_image',
         )
+
 class CommentSerializer(serializers.ModelSerializer):
-    creator = FeedUserSerializer()
+    creator = FeedUserSerializer(read_only=True)
     class Meta:
         model = models.Comment
         fields = (
