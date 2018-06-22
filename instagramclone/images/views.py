@@ -61,7 +61,7 @@ class UnLikeImage(APIView):
                 image = found_image
             )
             preexisting_like.delete()
-            return Response(status=status.HTTP_202_ACCEPTED)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except models.Like.DoesNotExist:
             return Response(status=status.HTTP_304_NOT_MODIFIED)
 
