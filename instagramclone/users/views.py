@@ -21,6 +21,8 @@ class FollowUser(APIView):
 
         user.following.add(user_to_follow)
         user.save()
+        """user_to_follow.followers.add(user)
+        user_to_follow.save()"""
         return Response(status=status.HTTP_200_OK)
 
 class UnFollowUser(APIView):
@@ -34,6 +36,8 @@ class UnFollowUser(APIView):
 
         user.following.remove(user_to_follow)
         user.save()
+        """user_to_follow.followers.remove(user)
+        user_to_follow.save()"""
         return Response(status=status.HTTP_200_OK)
 
 class UserProfile(APIView):
