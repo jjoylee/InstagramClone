@@ -41,7 +41,7 @@ class ImageSerializer(serializers.ModelSerializer):
             'creator'
         )
 
-class UserProfileImageSerializer(serializers.ModelSerializer):
+class CountImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Image
         fields = (
