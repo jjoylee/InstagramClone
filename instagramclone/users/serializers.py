@@ -3,7 +3,7 @@ from . import models
 from instagramclone.images import serializers as image_serializer
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    images = image_serializer.UserProfileImageSerializer(many=True)
+    images = image_serializer.CountImageSerializer(many=True)
     class Meta:
         model = models.User
         fields = (

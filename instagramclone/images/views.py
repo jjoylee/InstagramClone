@@ -16,7 +16,6 @@ class Feed(APIView):
             for image in user_images:
                 image_list.append(image)
 
-        print(image_list)
         sorted_list = sorted(image_list, key= lambda image : image.created_at, reverse=True)
         serializer = serializers.ImageSerializer(sorted_list, many=True)
         return Response(data = serializer.data)
@@ -96,5 +95,14 @@ class Comment(APIView):
 
 class Search(APIView):
     def get(self, request, format=None):
+        
         hashtags = request.query_params.get('hashtags', None)
-        print(hashtags)
+
+        if hashtags is not None:
+            hashtags = hashtags.split(",")
+            images = models.Image.objects.filter(tags__name__in = hashtags).distinct()
+            serializer = serializers.CountImageSerializer(images, many=True)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
