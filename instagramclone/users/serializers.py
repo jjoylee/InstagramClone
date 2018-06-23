@@ -1,21 +1,5 @@
 from rest_framework import serializers
 from . import models
-from instagramclone.images import serializers as image_serializer
-
-class UserProfileSerializer(serializers.ModelSerializer):
-    images = image_serializer.UserProfileImageSerializer(many=True)
-    class Meta:
-        model = models.User
-        fields = (
-            'username',
-            'name',
-            'bio',
-            'website',
-            'post_count',
-            'followers_count',
-            'following_count',
-            'images'
-        )
 
 class ExploreUserSerializer(serializers.ModelSerializer):
 
@@ -25,5 +9,5 @@ class ExploreUserSerializer(serializers.ModelSerializer):
             'id',
             'profile_image',
             'username',
-            'name',
+            'name'
         )
