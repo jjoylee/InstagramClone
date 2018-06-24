@@ -73,8 +73,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'instagramclone.users.apps.UsersConfig',
     # Your stuff: custom apps go here
-    'instagramclone.images.apps.ImagesConfig'
-    
+    'instagramclone.images.apps.ImagesConfig', #images app
+    'instagramclone.notifications.apps.NotificationsConfig', #notifiations app
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
