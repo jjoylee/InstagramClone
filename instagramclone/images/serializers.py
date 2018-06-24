@@ -51,6 +51,16 @@ class ImageSerializer(serializers.ModelSerializer):
             'created_at'
         )
 
+class InputImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Image
+        fields = ( 
+            'file',
+            'location',
+            'caption',
+        )
+
 class CountImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Image
