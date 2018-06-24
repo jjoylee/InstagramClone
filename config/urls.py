@@ -24,6 +24,10 @@ urlpatterns = [
         "images/",
         include("instagramclone.images.urls", namespace="images"),
     ),
+    path(
+        "notifications/",
+        include("instagramclone.notifications.urls", namespace="notifications"),
+    ),
     # Your stuff: custom urls includes go here
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
