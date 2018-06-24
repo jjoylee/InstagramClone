@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from . import models, serializers
-
+from instagramclone.notifications import views as notification_views
 # Create your views here.
 class Feed(APIView):
     
@@ -42,7 +42,8 @@ class LikeImage(APIView):
                 creator = user,
                 image = found_image
             )
-            new_like.save()        
+            new_like.save()
+            notification_views.create_notifications(user,found_image.creator ,"like", found_image)        
         return Response(status=status.HTTP_201_CREATED)
 
 class UnLikeImage(APIView):
@@ -68,16 +69,18 @@ class CommentOnImage(APIView):
     
     def post(self, request, image_id, format=None):
         user = request.user
-
         try:
             found_image = models.Image.objects.get(id=image_id)
         except models.Image.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = serializers.CommentSerializer(data=request.data)
+        
         if serializer.is_valid():
             serializer.save(creator=user, image = found_image)
+            notification_views.create_notifications(user,found_image.creator ,"comment", found_image, serializer.data['message'])
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
         else :
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

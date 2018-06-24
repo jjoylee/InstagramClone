@@ -2,8 +2,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from . import models, serializers
+from instagramclone.notifications import views as notification_views
 
 class ExploreUsers(APIView):
+
     def get(self, request, format = None):
         
         last_five = models.User.objects.all().order_by('-date_joined')[:5]
@@ -11,9 +13,10 @@ class ExploreUsers(APIView):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 class FollowUser(APIView):
-    def post(self, request, user_id, format=None):
 
+    def post(self, request, user_id, format=None):
         user = request.user
+
         try:
             user_to_follow = models.User.objects.get(id=user_id)
         except models.User.DoesNotExist:
@@ -21,13 +24,17 @@ class FollowUser(APIView):
 
         user.following.add(user_to_follow)
         user.save()
+
+        notification_views.create_notifications(user,user_to_follow,"follow")
+
         """user_to_follow.followers.add(user)
         user_to_follow.save()"""
+         
         return Response(status=status.HTTP_200_OK)
 
 class UnFollowUser(APIView):
-    def post(self, request, user_id, format=None):
 
+    def post(self, request, user_id, format=None):
         user = request.user
         try:
             user_to_follow = models.User.objects.get(id=user_id)
@@ -77,9 +84,8 @@ class UserFollowing(APIView):
 class Search(APIView):
 
     def get(self, request, format=None):
-
         username = request.query_params.get('username',None)
-        
+
         if username is not None:
             users = models.User.objects.filter(username__istartswith=username)
             serializer = serializers.ListUserSerializer(users, many=True)
