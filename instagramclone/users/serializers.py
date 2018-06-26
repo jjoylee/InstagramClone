@@ -3,7 +3,7 @@ from . import models
 from instagramclone.images import serializers as image_serializer
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    images = image_serializer.CountImageSerializer(many=True)
+    images = image_serializer.CountImageSerializer(many=True, read_only=True)
     post_count = serializers.ReadOnlyField()
     followers_count = serializers.ReadOnlyField()
     following_count = serializers.ReadOnlyField()
