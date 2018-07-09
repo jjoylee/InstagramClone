@@ -1,10 +1,11 @@
 from django.conf import settings
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 from rest_framework_jwt.views import obtain_jwt_token
+from instagramclone import views
 
 urlpatterns = [
     path("rest-auth/", include("rest_auth.urls")),
@@ -25,6 +26,7 @@ urlpatterns = [
         "notifications/",
         include("instagramclone.notifications.urls", namespace="notifications"),
     ),
+    re_path(r'^', views.ReactAppView.as_view()),
     # Your stuff: custom urls includes go here
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
