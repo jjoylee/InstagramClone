@@ -1,8 +1,12 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { routerReducer, routerMiddleware } from 'react-router-redux';
 import users from 'redux/modules/users';
+import createHistory from 'history/createBrowserHistory';
 
-const middlewares = [thunk];
+const history = createHistory();
+
+const middlewares = [thunk, routerMiddleware(history)];
 
 const env = process.env.NODE_ENV; // prod or development environment
 
@@ -13,9 +17,11 @@ if(env === "development"){
 }
 
 const reducer = combineReducers({
-    users
+    users,
+    routing : routerReducer
 });
 
 let store = initialState => createStore(reducer, applyMiddleware(...middlewares));
 
 export default store();
+export { history };
